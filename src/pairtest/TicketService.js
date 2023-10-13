@@ -58,6 +58,22 @@ export default class TicketService {
         totalPrice+= this.#getTotalTicketPrice(numTickets, ticketType);
       }
 
+
+      if (ticketType === this.#ticketTypes.CHILD) {
+        if (hasAdultTicket) {
+          totalNumberOfTickets += numTickets;
+          totalPrice += numTickets * this.#ticketPrices.CHILD;
+        } else {
+          throw new InvalidPurchaseException('Child ticket cannot be purchased without an Adult ticket');
+        }
+      }
+
+      if (ticketType === this.#ticketTypes.INFANT) {
+        if (!hasAdultTicket) {
+          throw new InvalidPurchaseException('Infant ticket cannot be purchased without an Adult ticket');
+        }
+      }
+
     }
 
 
